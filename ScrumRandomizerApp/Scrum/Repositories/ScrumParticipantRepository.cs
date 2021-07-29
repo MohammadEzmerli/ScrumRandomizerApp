@@ -59,8 +59,8 @@ namespace ScrumRandomizerApp.Scrum.Repositories
 
         public List<ScrumParticipant> GetPossibleScrumParticipants()
         {
-            AppDatabase.Database.DropTable<ScrumParticipant>();
-            SeedDatabase();
+            //AppDatabase.Database.DropTable<ScrumParticipant>();
+            //SeedDatabase();
 
             return AppDatabase.Database?.Table<ScrumParticipant>()?.ToList()
                 ?? DefaultScrumParticipants;
