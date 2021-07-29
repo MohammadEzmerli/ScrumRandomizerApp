@@ -7,7 +7,7 @@ namespace ScrumRandomizerApp.Scrum.Repositories
 {
     public class ScrumParticipantRepository : IScrumParticipantRepository
     {
-        private List<ScrumParticipant> DefaultScrumParticipants = new List<ScrumParticipant>()
+        private readonly List<ScrumParticipant> DefaultScrumParticipants = new List<ScrumParticipant>()
         {
             (new ScrumParticipant() { Name = "Ana" }),
             (new ScrumParticipant() { Name = "Dana" }),
@@ -16,6 +16,7 @@ namespace ScrumRandomizerApp.Scrum.Repositories
             (new ScrumParticipant() { Name = "Janet" }),
             (new ScrumParticipant() { Name = "Jens" }),
             (new ScrumParticipant() { Name = "Mario" }),
+            (new ScrumParticipant() { Name = "Max" }),
             (new ScrumParticipant() { Name = "Mo" }),
             (new ScrumParticipant() { Name = "Yuliya" }),
             (new ScrumParticipant() { Name = "Markus" }),
@@ -58,8 +59,8 @@ namespace ScrumRandomizerApp.Scrum.Repositories
 
         public List<ScrumParticipant> GetPossibleScrumParticipants()
         {
-            if (AppDatabase.Database?.Table<ScrumParticipant>()?.Count() <= 0)
-                SeedDatabase();
+            AppDatabase.Database.DropTable<ScrumParticipant>();
+            SeedDatabase();
 
             return AppDatabase.Database?.Table<ScrumParticipant>()?.ToList()
                 ?? DefaultScrumParticipants;
@@ -69,6 +70,7 @@ namespace ScrumRandomizerApp.Scrum.Repositories
         {
             try
             {
+                AppDatabase.Database.CreateTable<ScrumParticipant>();
                 AppDatabase.Database?.InsertAll(DefaultScrumParticipants);
             }
             catch (Exception ex)
